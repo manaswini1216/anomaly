@@ -17,8 +17,11 @@ Volume Flow RateRMS
 Folder layout
 data/
 ├── anomaly-free/      → normal operating data (training)
+
 ├── valve1/            → fault type 1
+
 ├── valve2/            → fault type 2
+
 └── other/             → mixed / unknown faults
 
 anomaly-free data is used for training unsupervised models
