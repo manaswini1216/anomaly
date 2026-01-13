@@ -16,6 +16,7 @@ Volume Flow RateRMS
 
 Folder layout
 data/
+
 ├── anomaly-free/      → normal operating data (training)
 
 ├── valve1/            → fault type 1
