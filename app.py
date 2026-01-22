@@ -4,9 +4,6 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# ---------------------------
-# Page config
-# ---------------------------
 st.set_page_config(
     page_title="Anomaly Detection Model Comparison",
     layout="wide"
@@ -20,14 +17,10 @@ st.markdown(
     """
 )
 
-# ---------------------------
-# Base directory (DEPLOY SAFE)
-# ---------------------------
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ---------------------------
-# Load metrics
-# ---------------------------
+
 @st.cache_data
 def load_metrics():
     lstm_unsup = pd.read_csv(
@@ -53,9 +46,7 @@ def load_metrics():
 
 lstm_unsup, lstm_sup, mset, iso = load_metrics()
 
-# ---------------------------
-# Normalize columns
-# ---------------------------
+
 def normalize(df):
     df = df.copy()
     df.columns = df.columns.str.lower()
@@ -66,9 +57,7 @@ lstm_sup   = normalize(lstm_sup)
 mset       = normalize(mset)
 iso        = normalize(iso)
 
-# ---------------------------
-# Unified anomaly ratio table
-# ---------------------------
+
 anomaly_df = pd.concat(
     [
         lstm_unsup[["folder", "file", "anomaly_ratio", "model"]],
@@ -78,9 +67,6 @@ anomaly_df = pd.concat(
     ignore_index=True
 )
 
-# ---------------------------
-# Sidebar filters
-# ---------------------------
 st.sidebar.header("Filters")
 
 model_filter = st.sidebar.multiselect(
@@ -91,9 +77,7 @@ model_filter = st.sidebar.multiselect(
 
 filtered_df = anomaly_df[anomaly_df["model"].isin(model_filter)]
 
-# ---------------------------
-# Overview
-# ---------------------------
+
 st.header("Dataset Coverage")
 
 coverage = (
@@ -105,9 +89,6 @@ coverage = (
 
 st.dataframe(coverage, use_container_width=True)
 
-# ---------------------------
-# Average anomaly ratio
-# ---------------------------
 st.header("Average Anomaly Ratio")
 
 avg_ratio = (
@@ -123,9 +104,6 @@ ax.set_ylabel("Average Anomaly Ratio")
 ax.set_xlabel("Model")
 st.pyplot(fig)
 
-# ---------------------------
-# Distribution
-# ---------------------------
 st.header("Anomaly Ratio Distribution")
 
 fig, ax = plt.subplots(figsize=(8, 4))
@@ -139,9 +117,6 @@ ax.set_ylabel("Anomaly Ratio")
 ax.set_xlabel("Model")
 st.pyplot(fig)
 
-# ---------------------------
-# Stability
-# ---------------------------
 st.header("Model Stability")
 
 stability = (
@@ -164,9 +139,6 @@ st.markdown(
     """
 )
 
-# ---------------------------
-# Supervised metrics
-# ---------------------------
 st.header("LSTM Supervised Classification Metrics")
 
 st.dataframe(
@@ -174,9 +146,6 @@ st.dataframe(
     use_container_width=True
 )
 
-# ---------------------------
-# Footer
-# ---------------------------
 st.markdown("---")
 st.markdown(
     "End-to-end anomaly detection benchmarking using classical, deep learning, and hybrid models."
